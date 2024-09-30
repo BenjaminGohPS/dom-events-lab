@@ -4,6 +4,16 @@ const buttons = document.querySelectorAll(".button");
 const calculator = document.querySelector("#calculator");
 const display = document.querySelector(".display");
 
+const storedValues = [];
+const storedOperators = [];
+
+// const o = storedOperators.pop();
+// const x = Number(storedValues.shift());
+// const y = Number(storedValues.shift());
+
+// console.log(x);
+// console.log(o);
+// console.log(y);
 /*-------------------------------- Variables --------------------------------*/
 
 /*------------------------ Cached Element References ------------------------*/
@@ -28,14 +38,119 @@ calculator.addEventListener("click", (event) => {
   // Example
   if (event.target.classList.contains("number")) {
     // Do something with a number
+    /* 
+    USER STORY
+    ok -  i need to display the number
+    - i need to store the value so I can use it
+    */
     display.innerText += event.target.innerText;
+    storedValues.push(event.target.innerText);
+    // issue here is because if 2 value number, then the array is 2 separate objects
+    console.log(storedValues);
   }
 
-  // Example
   if (event.target.innerText === "*") {
     // Do something with this operator
+    // can i store this?
     display.innerText += event.target.innerText;
+    storedOperators.push(event.target.innerText);
+    console.log(storedOperators);
+  }
+
+  if (event.target.innerText === "+") {
+    display.innerText += event.target.innerText;
+    storedOperators.push(event.target.innerText);
+    console.log(storedOperators);
+  }
+
+  if (event.target.innerText === "-") {
+    display.innerText += event.target.innerText;
+    storedOperators.push(event.target.innerText);
+    console.log(storedOperators);
+  }
+
+  if (event.target.innerText === "/") {
+    display.innerText += event.target.innerText;
+    storedOperators.push(event.target.innerText);
+    console.log(storedOperators);
+  }
+
+  if (event.target.innerText === "=") {
+    const o = storedOperators.pop();
+    const x = Number(storedValues.shift());
+    const y = Number(storedValues.shift());
+
+    // console.log(x);
+    // console.log(o);
+    // console.log(y);
+
+ 
+    display.innerText += `${event.target.innerText} ${answerNow(x, y, o)}`;
+
+    storedValues.push(answerNow(x, y, o));
+    // run a function
+    // display the final answer.
+    // storedValues = ['6', '3'];
+    // storedOperators = ['*'];
+    // the above are stored as strings. so need to convert?
+  }
+
+  if (event.target.innerText === "C") {
+    display.innerText = "";
+
+    while (storedValues.length) {
+      storedValues.pop();
+    }
+    while (storedOperators.length) {
+      storedOperators.pop();
+    }
+
+    // to check if values are cleared
+    console.log(storedValues);
+    console.log(storedOperators);
   }
 });
 
 /*-------------------------------- Functions --------------------------------*/
+
+const answerNow = (x, y, o) => {
+  switch (o) {
+    case "*":
+      return x * y;
+      break;
+    case "+":
+      return x + y;
+      break;
+    case "-":
+      return x - y;
+      break;
+    case "/":
+      return x / y;
+      break;
+  }
+};
+
+/*
+[REF]
+const basicCalculator = (x, y, operator) => {
+    const o = operator.toLowerCase();
+    switch (o) {
+      case "add":
+        return x + y;
+        break;
+      case "subtract":
+        return x - y;
+        break;
+      case "multiply":
+        return x * y;
+        break;
+      case "divide":
+        return x / y;
+        break;
+      default:
+        return "Please key in values";
+    }
+  };
+  
+  console.log("Exercise 9 Result:", basicCalculator(10, 5, "subtract"));
+*/
