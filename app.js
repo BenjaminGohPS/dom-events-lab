@@ -39,7 +39,14 @@ calculator.addEventListener("click", (event) => {
   // Example
   if (event.target.classList.contains("number")) {
     display.innerText += event.target.innerText;
-    storedValues.push(event.target.innerText);
+    // storedValues.push(event.target.innerText);
+    tempArrays.push(event.target.innerText);
+    console.log(`This are values in tempArrays: ${tempArrays}`);
+
+    /*
+    USER STORY
+    numbers click only need to push to storedValues array when operator is clicked.
+    */
 
     // if (event.target.classList.contains("number")) {
     //   tempArrays.push(event.target.innerText);
@@ -50,7 +57,7 @@ calculator.addEventListener("click", (event) => {
     // }
 
     // issue here is because if 2 value number, then the array is 2 separate objects
-    console.log(storedValues);
+    // console.log(storedValues);
   }
 
   // switch (event.target.innerText) {
@@ -62,15 +69,21 @@ calculator.addEventListener("click", (event) => {
 
   if (event.target.innerText === "*") {
     display.innerText += event.target.innerText;
-    storedValues.push(storedValues.join(""));
-    if (storedValues.length > 1) {
-      storedValues.splice(0, storedValues.length - 1);
+    console.log(`Values in tempArrays at start: ${tempArrays}`); // check
+
+    if (tempArrays.length >= 1) {
+      storedValues.push(tempArrays.join(""));
+      console.log(`Values in storedValues after push: ${storedValues}`); // check
+      while (tempArrays.length) {
+        tempArrays.pop();
+        console.log(`Values in tempArrays at end: ${tempArrays}`); // check
+      }
     } else {
     }
-
-    console.log(storedValues); // check
     storedOperators.push(event.target.innerText);
-    console.log(storedOperators); // check
+
+    console.log(`Values in storedValues: ${storedValues}`); // check
+    console.log(`Operators in storedOperators: ${storedOperators}`); // check
   }
 
   // if (event.target.innerText === "*") {
@@ -88,23 +101,33 @@ calculator.addEventListener("click", (event) => {
 
   if (event.target.innerText === "+") {
     display.innerText += event.target.innerText;
+    storedValues.push(tempArrays.join(""));
+    tempArrays.splice(0, tempArrays.length);
     storedOperators.push(event.target.innerText);
-    console.log(storedOperators);
   }
 
   if (event.target.innerText === "-") {
     display.innerText += event.target.innerText;
+    storedValues.push(tempArrays.join(""));
+    tempArrays.splice(0, tempArrays.length);
     storedOperators.push(event.target.innerText);
-    console.log(storedOperators);
   }
 
   if (event.target.innerText === "/") {
     display.innerText += event.target.innerText;
+    storedValues.push(tempArrays.join(""));
+    tempArrays.splice(0, tempArrays.length);
     storedOperators.push(event.target.innerText);
-    console.log(storedOperators);
   }
 
   if (event.target.innerText === "=") {
+    storedValues.push(tempArrays.join(""));
+    console.log(`Values in storedValues: ${storedValues}`); // check
+    while (tempArrays.length) {
+      tempArrays.pop();
+      console.log(`Values in tempArrays at end: ${tempArrays}`); // check
+    }
+
     const o = storedOperators.pop();
     const x = Number(storedValues.shift());
     const y = Number(storedValues.shift());
@@ -128,6 +151,9 @@ calculator.addEventListener("click", (event) => {
     }
     while (storedOperators.length) {
       storedOperators.pop();
+    }
+    while (tempArrays.length) {
+      tempArrays.pop();
     }
 
     // to check if values are cleared
